@@ -14,7 +14,7 @@
             <td>{{$appointment->date}}</td>
             <td>{{$appointment->time}}</td>
             <td>
-                <form action="{{route('profile.appointment.update', ['appointment' => $appointment->id])}}"
+                <form action="{{route('profile.appointment.create', ['appointment' => $appointment->id])}}"
                       method="POST">
                     @csrf
                     @method('PATCH')

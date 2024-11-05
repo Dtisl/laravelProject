@@ -8,21 +8,24 @@ use App\Models\Appointment;
 use App\Models\Master;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+
 class AdminController extends Controller
 {
     public function showAdmin(): View
     {
         $masters = Master::all();
+
         return view('admin.admin', ['masters' => $masters]);
     }
 
     public function deleteMaster(Master $master): RedirectResponse
     {
         $master->delete();
+
         return redirect()->route('admin.view')->with('success', 'Мастер успешно удален.');
     }
 
-    public function addMaster(MasterRequest $request): RedirectResponse
+    public function createMaster(MasterRequest $request): RedirectResponse
     {
         $dataMaster = $request->validated();
 
@@ -34,12 +37,10 @@ class AdminController extends Controller
         return redirect()->route('admin.view')->with('success', 'Мастер успешно добавлен!');
     }
 
-
-
-
     public function showMasterAppointment(Master $master): View
     {
         $appointments = Appointment::where('master_id', $master->id)->where('busy', '0')->get();
+
         return view('admin.masterAppointment', ['appointments' => $appointments, 'master' => $master]);
     }
 
@@ -47,6 +48,7 @@ class AdminController extends Controller
     {
         $masterId = $appointment->master_id;
         $appointment->delete();
+
         return redirect()->route('master.appointment', [$masterId])->with('success', 'Запись успешно удалена.');
     }
 
@@ -63,5 +65,4 @@ class AdminController extends Controller
 
         return redirect(route('master.appointment', ['master'=>$master->id]))->with('success', 'Время успешно добавлено!');
     }
-
 }
