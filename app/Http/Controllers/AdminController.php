@@ -22,7 +22,9 @@ class AdminController extends Controller
     {
         $master->delete();
 
-        return redirect()->route('admin.view')->with('success', 'Мастер успешно удален.');
+        return redirect()
+            ->route('admin.view')
+            ->with('success', 'Мастер успешно удален.');
     }
 
     public function createMaster(MasterRequest $request): RedirectResponse
@@ -34,12 +36,16 @@ class AdminController extends Controller
             'specialization' => $dataMaster['specialization'],
         ]);
 
-        return redirect()->route('admin.view')->with('success', 'Мастер успешно добавлен!');
+        return redirect()
+            ->route('admin.view')
+            ->with('success', 'Мастер успешно добавлен!');
     }
 
     public function showMasterAppointment(Master $master): View
     {
-        $appointments = Appointment::where('master_id', $master->id)->where('busy', '0')->get();
+        $appointments = Appointment::where('master_id', $master->id)
+            ->where('busy', '0')
+            ->get();
 
         return view('admin.masterAppointment', ['appointments' => $appointments, 'master' => $master]);
     }
@@ -49,10 +55,12 @@ class AdminController extends Controller
         $masterId = $appointment->master_id;
         $appointment->delete();
 
-        return redirect()->route('master.appointment', [$masterId])->with('success', 'Запись успешно удалена.');
+        return redirect()
+            ->route('master.appointment', [$masterId])
+            ->with('success', 'Запись успешно удалена.');
     }
 
-    public function addAppointment(AppointmentRequest $request, Master $master) :RedirectResponse
+    public function addAppointment(AppointmentRequest $request, Master $master): RedirectResponse
     {
 
         $dataAppointment = $request->validated();
@@ -63,6 +71,10 @@ class AdminController extends Controller
             'busy' => 0,
         ]);
 
-        return redirect(route('master.appointment', ['master'=>$master->id]))->with('success', 'Время успешно добавлено!');
+        return redirect()
+            ->route('master.appointment', [
+                'master' => $master->id,
+            ])->with('success', 'Время успешно добавлено!');
+
     }
 }

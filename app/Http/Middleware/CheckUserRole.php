@@ -16,17 +16,15 @@ class CheckUserRole
         }
 
         if (Auth::user()->is_admin === 0) {
-            // Если пользователь не администратор и пытается зайти на страницу администратора
             if ($request->routeIs('admin.view')) {
-                return redirect()->route('profile.view'); // Перенаправляем на профиль
+                return redirect()->route('profile.view');
             }
         } else {
-            // Если администратор пытается зайти на страницу профиля
             if ($request->routeIs('profile.view')) {
-                return redirect()->route('admin.view'); // Перенаправляем на админку
+                return redirect()->route('admin.view');
             }
         }
 
-        return $next($request); // Если всё в порядке, продолжаем
+        return $next($request);
     }
 }

@@ -46,12 +46,11 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect(route('login.view'));
+        return redirect()->route('login.view');
     }
 
     public function showRegistrationForm(): View
     {
-
         return view('auth.register');
     }
 
@@ -71,11 +70,13 @@ class AuthController extends Controller
 
         if ($user) {
 
-            return redirect()->route('login.view')->with('success', 'Регистрация прошла успешно! Войдите в свой аккаунт.');
+            return redirect()
+                ->route('login.view')
+                ->with('success', 'Регистрация прошла успешно! Войдите в свой аккаунт.');
         } else {
-
-            return back()->withErrors(['error' => 'Не удалось зарегистрироваться, попробуйте снова.']);
+            return back()->withErrors([
+                'error' => 'Не удалось зарегистрироваться, попробуйте снова.',
+            ]);
         }
     }
-
 }

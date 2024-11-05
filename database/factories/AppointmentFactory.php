@@ -20,7 +20,7 @@ class AppointmentFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'master_id'=> Master::factory(),
+            'master_id' => Master::factory(),
             'date' => $this->faker->date(),
             'time' => $this->faker->time(),
             'busy' => $this->faker->boolean(),
