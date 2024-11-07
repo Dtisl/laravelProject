@@ -24,6 +24,7 @@ class Appointment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function master(): BelongsTo
     {
         return $this->belongsTo(Master::class);

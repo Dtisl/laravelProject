@@ -26,12 +26,15 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();
-            if ($user->is_admin == "0") {
+            if ($user->is_admin === 0) {
+
                 return redirect()->intended('profile');
-            } elseif ($user->is_admin == "1") {
+            } elseif ($user->is_admin === 1) {
+
                 return redirect()->intended('admin');
             }
         }
+
         return back()->withErrors([
             'email' => 'Неверный email или пароль.',
         ]);
@@ -42,7 +45,8 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect(route('login.view'));
+
+        return redirect()->route('login.view');
     }
 
     public function showRegistrationForm(): View
@@ -65,10 +69,14 @@ class AuthController extends Controller
         ]);
 
         if ($user) {
-            return redirect()->route('login.view')->with('success', 'Регистрация прошла успешно! Войдите в свой аккаунт.');
+
+            return redirect()
+                ->route('login.view')
+                ->with('success', 'Регистрация прошла успешно! Войдите в свой аккаунт.');
         } else {
-            return back()->withErrors(['error' => 'Не удалось зарегистрироваться, попробуйте снова.']);
+            return back()->withErrors([
+                'error' => 'Не удалось зарегистрироваться, попробуйте снова.',
+            ]);
         }
     }
-
 }

@@ -19,8 +19,8 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' =>User::factory(),
-            'master_id'=>Master::factory(),
+            'user_id' => User::factory(),
+            'master_id' => Master::factory(),
             'date' => $this->faker->date(),
             'time' => $this->faker->time(),
             'busy' => $this->faker->boolean(),

@@ -12,40 +12,52 @@ class ProfileController extends Controller
     public function showProfile(): View
     {
         $user = auth()->user();
-        $appointments = Appointment::where('user_id', $user->id)->with('master')->get();
-        return view('profile.profile', ['appointments' => $appointments]);
+        $appointments = Appointment::where('user_id', $user->id)
+            ->with('master')
+            ->get();
+
+        return view('profile.profile', [
+            'appointments' => $appointments,
+        ]);
     }
 
-
-    public function showAppointment() : View
+    public function showAppointment(): View
     {
         $appointments = Appointment::where('busy', 0)->with('master')->get();
-        return view('profile.appointment', ['appointments' => $appointments]);
+
+        return view('profile.appointment', [
+            'appointments' => $appointments,
+        ]);
     }
 
-    public function profileAppointmentDelete($appointmentid): RedirectResponse
+    public function deleteProfileAppointment($appointmentid): RedirectResponse
     {
         $appointment = Appointment::find($appointmentid);
-        if ($appointment){
+        if ($appointment) {
             $appointment->update([
                 'user_id' => null,
                 'busy' => 0
             ]);
         }
-        return redirect()->route('profile.view')->with('success', 'Запись успешно отменена!');
+
+        return redirect()
+            ->route('profile.view')
+            ->with('success', 'Запись успешно отменена!');
     }
 
-    public function profileAppointmentUpdate($appointmentid): RedirectResponse
+    public function createProfileAppointment($appointmentid): RedirectResponse
     {
         $user = auth()->user();
         $appointment = Appointment::find($appointmentid);
-        if ($appointment){
+        if ($appointment) {
             $appointment->update([
                 'user_id' => $user->id,
-                'busy' => 1
+                'busy' => 1,
             ]);
         }
-        return redirect()->route('profile.view')->with('success', 'Вы успешно записались!');
-    }
 
+        return redirect()
+            ->route('profile.view')
+            ->with('success', 'Вы успешно записались!');
+    }
 }

@@ -21,6 +21,7 @@ class Master extends Model
     {
         return $this->belongsToMany(User::class, 'user_masters');
     }
+    
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);

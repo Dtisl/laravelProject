@@ -11,7 +11,7 @@ class UserAppointment extends Model
     use HasFactory;
 
     protected $fillable = [
-      'user_id',
-      'appointment_id',
+        'user_id',
+        'appointment_id',
     ];
 }
